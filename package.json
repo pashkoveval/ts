@@ -6,23 +6,28 @@
   "scripts": {
     "dev": "rimraf ./public/scripts && tsc --watch",
     "open": "http-server public",
-    "build": "rimraf ./public/scripts && tsc"
+    "build": "rimraf ./public/scripts && tsc",
+    "lint": "eslint src --ext .js --ext .ts",
+    "lint-fix": "eslint src --ext .js --ext .ts --fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xuxicheta/geekbrains-typescript.git"
+    "url": "git+https://github.com/pashkoveval/ts.git.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xuxicheta/geekbrains-typescript/issues"
+    "url": "https://github.com/pashkoveval/ts.git/issues"
   },
-  "homepage": "https://github.com/xuxicheta/geekbrains-typescript#readme",
+  "homepage": "https://github.com/pashkoveval/ts.git#readme",
   "devDependencies": {
-    "typescript": "^4.4.3",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "eslint": "^8.1.0",
     "http-server": "^13.0.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.3"
   },
   "dependencies": {}
 }

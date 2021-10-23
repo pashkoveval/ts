@@ -1,4 +1,4 @@
-export function renderBlock (elementId: string, html: string): void {
+export function renderBlock(elementId: string, html: string): void {
   const element = document.getElementById(elementId)
   element.innerHTML = html
 }
@@ -14,9 +14,9 @@ export interface RenderAction {
 }
 
 
-export function renderToast (message?: RenderMessage, action?: RenderAction): void {
+export function renderToast(message?: RenderMessage, action?: RenderAction): void {
   let messageText = ''
-  
+
   if (message != null) {
     messageText = `
       <div id="info-block" class="info-block ${message.type}">
@@ -25,7 +25,7 @@ export function renderToast (message?: RenderMessage, action?: RenderAction): vo
       </div>
     `
   }
-  
+
   renderBlock(
     'toast-block',
     messageText
@@ -33,7 +33,7 @@ export function renderToast (message?: RenderMessage, action?: RenderAction): vo
 
   const button = document.getElementById('toast-main-action')
   if (button != null) {
-    button.onclick = function() {
+    button.onclick = function () {
       if (action != null && action.handler != null) {
         action.handler()
       }

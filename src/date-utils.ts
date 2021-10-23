@@ -1,11 +1,11 @@
-export const shiftDate = (date: Date, deltaDays: number): Date => 
+export const shiftDate = (date: Date, deltaDays: number): Date =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate() + deltaDays);
 
-export const getLastDayOfNextMonth = (date: Date): Date => 
+export const getLastDayOfNextMonth = (date: Date): Date =>
   new Date(date.getFullYear(), date.getMonth() + 2, 0);
 
-export const pad = (v: string | number): string => 
+export const pad = (v: string | number): string =>
   `0${v}`.slice(-2);
 
-export const formatDate = (date: Date): string => 
+export const formatDate = (date: Date): string =>
   `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
