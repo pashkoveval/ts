@@ -1,18 +1,18 @@
 export default () => {
-  interface Obj {
+  interface localStorage {
     userName: string;
     userAvatar: string;
-    userFavoriteItemsAmount: number;
+    userFavoriteItemsAmount: Array<number>;
   }
 
   const name: string = localStorage.getItem('userName')
   const avatar: string = localStorage.getItem('userAvatar')
-  const item: string = localStorage.getItem('userFavoriteItemsAmount')
+  const item: Array<number> = JSON.parse(localStorage.getItem('userFavoriteItemsAmount'))
 
-  const readeData: Obj = {
+  const readeData: localStorage = {
     userName: name,
     userAvatar: avatar,
-    userFavoriteItemsAmount: item ? Number(item) : 0,
+    userFavoriteItemsAmount: item,
   }
 
   return readeData

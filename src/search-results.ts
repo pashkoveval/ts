@@ -1,10 +1,20 @@
-import { renderBlock } from './lib.js'
+import { renderBlock, clearBlockOreClouseToasts } from './lib.js'
 
-export function renderSearchStubBlock (): void {
+interface renderSerchResultsElement {
+  coordinates: number;
+  details: string;
+  id: number;
+  img: string;
+  price: number;
+  title: string;
+}
+
+export function renderSearchStubBlock(): void {
+  clearBlockOreClouseToasts('search-results-block');
   renderBlock(
     'search-results-block',
     `
-    <div class="before-results-block">
+    <div class="before-results-block" id="before-results-block">
       <img src="img/start-search.png" />
       <p>Чтобы начать поиск, заполните форму и&nbsp;нажмите "Найти"</p>
     </div>
@@ -12,19 +22,23 @@ export function renderSearchStubBlock (): void {
   )
 }
 
-export function renderEmptyOrErrorSearchBlock (reasonMessage: string): void {
+export function renderEmptyOrErrorSearchBlock(reasonMessage: string): void {
+  clearBlockOreClouseToasts('results-list');
   renderBlock(
-    'search-results-block',
+    'results-list',
     `
-    <div class="no-results-block">
-      <img src="img/no-results.png" />
-      <p>${reasonMessage}</p>
-    </div>
+    <li class="result">
+      <div class="no-results-block">
+        <img src="img/no-results.png" />
+        <p>${reasonMessage}</p>
+      </div>
+    </li>
     `
   )
 }
 
-export function renderSearchResultsBlock (): void {
+export function renderSearchResultsBlock(): void {
+  clearBlockOreClouseToasts('search-results-block');
   renderBlock(
     'search-results-block',
     `
@@ -39,50 +53,37 @@ export function renderSearchResultsBlock (): void {
             </select>
         </div>
     </div>
-    <ul class="results-list">
-      <li class="result">
-        <div class="result-container">
-          <div class="result-img-container">
-            <div class="favorites active"></div>
-            <img class="result-img" src="./img/result-1.png" alt="">
-          </div>	
-          <div class="result-info">
-            <div class="result-info--header">
-              <p>YARD Residence Apart-hotel</p>
-              <p class="price">13000&#8381;</p>
-            </div>
-            <div class="result-info--map"><i class="map-icon"></i> 2.5км от вас</div>
-            <div class="result-info--descr">Комфортный апарт-отель в самом сердце Санкт-Петербрга. К услугам гостей номера с видом на город и бесплатный Wi-Fi.</div>
-            <div class="result-info--footer">
-              <div>
-                <button>Забронировать</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="result">
-        <div class="result-container">
-          <div class="result-img-container">
-            <div class="favorites"></div>
-            <img class="result-img" src="./img/result-2.png" alt="">
-          </div>	
-          <div class="result-info">
-            <div class="result-info--header">
-              <p>Akyan St.Petersburg</p>
-              <p class="price">13000&#8381;</p>
-            </div>
-            <div class="result-info--map"><i class="map-icon"></i> 1.1км от вас</div>
-            <div class="result-info--descr">Отель Akyan St-Petersburg с бесплатным Wi-Fi на всей территории расположен в историческом здании Санкт-Петербурга.</div>
-            <div class="result-info--footer">
-              <div>
-                <button>Забронировать</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
+    <ul class="results-list" id="results-list">
     </ul>
     `
   )
+}
+
+export function renderSerchResults(element: renderSerchResultsElement): void {
+  const { id, title, price, coordinates, details, img } = element;
+  renderBlock(
+    'results-list',
+    `
+    <li class="result">
+    <div class="result-container">
+      <div class="result-img-container">
+        <div class="favorites" id="${id}"></div>
+        <img class="result-img" src="${img}" alt="">
+      </div>
+      <div class="result-info">
+        <div class="result-info--header">
+          <p>${title}</p>
+          <p class="price">${price}&#8381;</p>
+        </div>
+        <div class="result-info--map"><i class="map-icon"></i> ${coordinates}км от вас</div>
+        <div class="result-info--descr">${details}</div>
+        <div class="result-info--footer">
+          <div>
+            <button class="reserve" id="${id}">Забронировать</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+  `)
 }

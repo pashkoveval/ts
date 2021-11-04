@@ -1,7 +1,7 @@
 import { renderSearchFormBlock } from './search-form.js'
 import { renderSearchStubBlock } from './search-results.js'
 import { renderUserBlock } from './user.js'
-import { renderToast } from './lib.js'
+import { renderToast, clearBlockOreClouseToasts } from './lib.js'
 import localdata from './getDataLocalstorage.js'
 
 
@@ -12,7 +12,7 @@ export function render() {
     const { userName, userAvatar, userFavoriteItemsAmount } = userData;
     renderUserBlock(userName, userAvatar, userFavoriteItemsAmount)
   } else {
-    renderUserBlock('Wade Warren', '/img/avatar.png', 0)
+    renderUserBlock('Wade Warren', '/img/avatar.png', [])
   }
   renderSearchFormBlock()
   renderSearchStubBlock()
@@ -24,7 +24,7 @@ export function render() {
     {
       name: 'Понял',
       handler: () => {
-        onmessage
+        clearBlockOreClouseToasts('toast-block')
       }
     }
   )

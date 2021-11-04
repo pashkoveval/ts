@@ -164,6 +164,7 @@ ul.results-list {
 .result-img-container {
     position: relative;
     margin-right: 16px;
+    width: 20%;
 }
 .result-img {
     width: 245px;
@@ -176,16 +177,39 @@ ul.results-list {
     position: absolute;
     left: 4px;
     top: 4px;
-    background-image: url(../img/heart.png);
+    background-image: url(../img/heart-red.png);
     background-repeat: no-repeat;
     background-size: 100%;
     cursor: pointer;
+}
+
+.radio {
+    width: auto;
+}
+.heart {
+    display: block;
+    margin-left: 5px;
+    width: 10px;
+    height: 10px;
+    background-image: url(../img/heart-filled.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+.heart2 {
+    display: block;
+    margin-left: 5px;
+    width: 10px;
+    height: 10px;
+    background-image: url(../img/heart-red.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 .favorites.active {
     background-image: url(../img/heart-filled.png);
 }
 .result-info {
     position: relative;
+    width: 80%;
 }
 .result-info--header {
     display: flex;
@@ -308,15 +332,21 @@ span.forward {
     margin-bottom: 62px;
     width: 181px;
 }
+
+#toast-block {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 50%;
+}
+
 .info-block {
     width: 560px;
     text-align: center;
-    position: fixed;
-    z-index: 1;
     background: rgb(255 255 255 / 90%);
     padding: 24px 0;
-    top: 0;
-    left: 50%;
     transform: translate(-50%, 0);
 }
 .info-block.success {

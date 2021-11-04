@@ -1,17 +1,14 @@
-import { renderBlock } from './lib.js'
+import { renderBlock, clearBlockOreClouseToasts } from './lib.js'
 
-// export function getUserData(): void {
-
-// }
-
-export function renderUserBlock(userName: string, avatarSrc: string, favoriteItemsAmount: number): void {
+export function renderUserBlock(userName: string, avatarSrc: string, favoriteItemsAmount: Array<number>): void {
+  clearBlockOreClouseToasts('user-block');
   const favoritesCaption = favoriteItemsAmount
-    ? `Избранных: ${favoriteItemsAmount}`
+    ? `Избранных: ${favoriteItemsAmount.length}`
     : 'ничего нет';
 
   const heartIcon = favoriteItemsAmount
-    ? 'heart-filled'
-    : 'heart-red';
+    ? 'heart'
+    : 'heart2';
 
   renderBlock(
     'user-block',
@@ -21,7 +18,8 @@ export function renderUserBlock(userName: string, avatarSrc: string, favoriteIte
       <div class="info">
           <p class="name">${userName}</p>
           <p class="fav">
-            <i class="${heartIcon}"></i>${favoritesCaption}
+            <span id="fav-val">${favoritesCaption}</span>
+            <span class="${heartIcon}"></span>
           </p>
       </div>
     </div>
