@@ -2,9 +2,10 @@ import { renderBlock, renderToast, clearBlockOreClouseToasts } from './lib.js';
 import bucingElement from './bucing-element.js'
 import { formatDate, getLastDayOfNextMonth, shiftDate } from './date-utils.js';
 import { renderSearchResultsBlock, renderSerchResults, renderEmptyOrErrorSearchBlock } from './search-results.js';
-
+import { FlatRentSdk } from './flat-rent-sdk.js'
 
 export function renderSearchFormBlock(dateArrival?: Date,): void {
+  const sdk = new FlatRentSdk()
   const STATE: state = {
     response: [],
     renderFilter: null,
@@ -23,6 +24,7 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
     price: number;
     provider1: string;
     provider2: string;
+    provider3: string;
   }
   interface state {
     response: Array<responsElement>
@@ -36,7 +38,7 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
     dateIn: string;
     dateOut: string;
     details: string;
-    id: number;
+    id: string;
     img: string;
     price: number;
     title: string;
@@ -56,7 +58,8 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
           </div>
           <div class="providers">
             <label><input type="checkbox" name="provider1" value="homy" checked /> Homy</label>
-            <label><input type="checkbox" name="provider2" value="flat-rent" checked /> FlatRent</label>
+            <label><input type="checkbox" name="provider2" value="MockAPI" checked /> MockAPI</label>
+            <label><input type="checkbox" name="provider3" value="flatrent" checked /> FlatRent</label>
           </div>
         </div>
         <div class="row">
@@ -91,6 +94,7 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
         city: formData.get('city'),
         provider1: formData.get('provider1'),
         provider2: formData.get('provider2'),
+        provider3: formData.get('provider3'),
         checkin: formData.get('checkin'),
         checkout: formData.get('checkout'),
         price: formData.get('price'),
@@ -99,6 +103,7 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
     form.addEventListener('submit', listener)
     return () => form.removeEventListener('submit', listener)
   }
+
 
   onFormSubmit(search)
 
@@ -110,7 +115,6 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
           for (const el in r) {
             if (Object.prototype.hasOwnProperty.call(r, el)) {
               const element: responsElement = r[el];
-              element.id = +element.id
               STATE.response.unshift(element);
             }
           }
@@ -120,6 +124,14 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
 
   function renderResult() {
     renderSearchResultsBlock()
+
+    const sort: HTMLInputElement = document.querySelector('#sort');
+    sortBy(sort.value)
+
+    sort.addEventListener('change', () => {
+      sortBy(sort.value)
+    })
+
 
     if (STATE.response && STATE.response.length) {
       clearBlockOreClouseToasts('results-list')
@@ -140,9 +152,39 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
 
   }
 
+  function sortBy(sort: string): void {
+    if (sort === 'chep') {
+      STATE.response.sort((a, b) => {
+        if (a.price > b.price) return -1;
+      })
+      clearBlockOreClouseToasts('results-list')
+      STATE.response.forEach(el => {
+        renderSerchResults(el)
+      })
+    }
+    if (sort === 'reach') {
+      STATE.response.sort((a, b) => {
+        if (b.price > a.price) return -1;
+      })
+      clearBlockOreClouseToasts('results-list')
+      STATE.response.forEach(el => {
+        renderSerchResults(el)
+      })
+    }
+    if (sort === 'close') {
+      STATE.response.sort((a, b) => {
+        if (a.coordinates > b.coordinates) return -1;
+      })
+      clearBlockOreClouseToasts('results-list')
+      STATE.response.forEach(el => {
+        renderSerchResults(el)
+      })
+    }
+  }
+
   async function search(serchData: serchData) {
     STATE.response = []
-    const { provider1, provider2 } = serchData;
+    const { provider1, provider2, provider3 } = serchData;
 
     if (provider1 !== null) {
       const path = 'http://localhost:3000/places'
@@ -152,6 +194,21 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
       const path = 'https://602c2a0730ba720017222bc0.mockapi.io/p'
       await fetchToStore(path);
     }
+    if (provider3 !== null) {
+      await sdk.search(serchData)
+        .then((result) => {
+          result.forEach((element) => {
+            STATE.response.unshift(element);
+
+          })
+        })
+
+    } else {
+      STATE.emptyList = true;
+      clearBlockOreClouseToasts('results-list')
+      renderEmptyOrErrorSearchBlock('Ничего не найдено')
+    }
+
     renderResult();
     onReserve(onReservAdding)
   }
@@ -169,7 +226,7 @@ export function renderSearchFormBlock(dateArrival?: Date,): void {
   }
 
   function onReservAdding(btn: Event) {
-    const id = +(<HTMLElement>btn.target).id
+    const id = (<HTMLElement>btn.target).id
     let reserveArray = JSON.parse(localStorage.getItem('reserveArray'))
     if (!reserveArray) {
       reserveArray = []

@@ -4,19 +4,19 @@ import { renderUserBlock } from './user.js'
 export default () => {
   const like: NodeListOf<Element> = document.querySelectorAll('.favorites');
   const favorites = localdata().userFavoriteItemsAmount;
-  const favoritesItems: Array<number> = favorites;
+  const favoritesItems: Array<string> = favorites;
 
   like.forEach((likeBTN) => {
-    const idlikeBTN: number = +likeBTN.id;
+    const idlikeBTN: string = likeBTN.id;
 
-    function addToStorage(favoritesItems: Array<number>, favorites: Array<number>, idlikeBTN: number): void {
+    function addToStorage(favoritesItems: Array<string>, favorites: Array<string>, idlikeBTN: string): void {
       favoritesItems.push(idlikeBTN)
       localStorage.setItem('userFavoriteItemsAmount', JSON.stringify(favoritesItems));
       const localStorageUpdate = localdata();
       renderUserBlock(localStorageUpdate.userName, localStorageUpdate.userAvatar, localStorageUpdate.userFavoriteItemsAmount)
     }
 
-    function removeToStorage(favoritesItems: Array<number>, idlikeBTN: number): void {
+    function removeToStorage(favoritesItems: Array<string>, idlikeBTN: string): void {
       favoritesItems.forEach((fi, idx) => {
         if (fi === idlikeBTN) {
           favoritesItems.splice(idx, 1);

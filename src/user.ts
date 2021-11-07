@@ -1,6 +1,6 @@
 import { renderBlock, clearBlockOreClouseToasts } from './lib.js'
 
-export function renderUserBlock(userName: string, avatarSrc: string, favoriteItemsAmount: Array<number>): void {
+export function renderUserBlock(userName: string, avatarSrc: string, favoriteItemsAmount: Array<string>): void {
   clearBlockOreClouseToasts('user-block');
   const favoritesCaption = favoriteItemsAmount
     ? `Избранных: ${favoriteItemsAmount.length}`

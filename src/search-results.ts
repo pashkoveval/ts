@@ -3,7 +3,7 @@ import { renderBlock, clearBlockOreClouseToasts } from './lib.js'
 interface renderSerchResultsElement {
   coordinates: number;
   details: string;
-  id: number;
+  id: string;
   img: string;
   price: number;
   title: string;
@@ -46,10 +46,10 @@ export function renderSearchResultsBlock(): void {
         <p>Результаты поиска</p>
         <div class="search-results-filter">
             <span><i class="icon icon-filter"></i> Сортировать:</span>
-            <select>
-                <option selected="">Сначала дешёвые</option>
-                <option selected="">Сначала дорогие</option>
-                <option>Сначала ближе</option>
+            <select name="sort" id="sort">
+                <option value="chep">Сначала дешёвые</option>
+                <option value="reach" selected>Сначала дорогие</option>
+                <option value="close">Сначала ближе</option>
             </select>
         </div>
     </div>
